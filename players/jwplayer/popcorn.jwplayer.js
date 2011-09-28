@@ -76,16 +76,16 @@ Popcorn.player( "jwplayer", {
 
     media.__defineSetter__( "volume", function( val ) {
 
-        if ( jwplayer( container.id ).getVolume() !== val ) {
-        jwplayer( container.id ).setVolume( val );
+        if ( jwplayer( container.id ).getVolume() !== val *100 ) {
+        jwplayer( container.id ).setVolume( val * 100);
         media.dispatchEvent( "volumechange" );
         }
 
-        return jwplayer( container.id ).getVolume();
+        return (jwplayer( container.id ).getVolume()) / 100;
     });
 
     media.__defineGetter__( "volume", function() {
-      return jwplayer( container.id ).percentage;
+      return jwplayer( container.id ).percentage / 100;
     });
 
     media.readyState = 4;
