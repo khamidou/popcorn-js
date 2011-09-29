@@ -20,7 +20,7 @@ Popcorn.player( "jwplayer", {
         media.dispatchEvent( "timeupdate" );
        // timeout = setTimeout( timeupdate, 10 );
     });
-
+    
     media.play = function() {
       media.paused = false;
       media.dispatchEvent( "play" );
@@ -32,7 +32,7 @@ Popcorn.player( "jwplayer", {
       media.dispatchEvent( "playing" );
       jwplayer( container.id ).play();
     };
-
+    
     media.pause = function() {
 
       if ( !media.paused ) {
@@ -42,39 +42,41 @@ Popcorn.player( "jwplayer", {
       }
     };
 
-    media.__defineSetter__( "currentTime", function( val ) {
-      // make sure val is a number
-      currentTime = seekTime = +val;
-      seeking = true;
-      media.dispatchEvent( "seeked" );
-      media.dispatchEvent( "timeupdate" );
-      jwplayer( container.id ).seek( currentTime );
-      return currentTime;
-    });
+    Popcorn.player.defineProperty( media, "currentTime", {
+          set: function( val ) {
+            // make sure val is a number
+            currentTime = seekTime = +val;
+            seeking = true;
+            media.dispatchEvent( "seeked" );
+            media.dispatchEvent( "timeupdate" );
+            jwplayer( container.id ).seek( currentTime );
+            return currentTime;
+          },
+          get: function() {
+            return jwplayer( container.id ).getPosition();            
+          }
+        });
+ 
+    Popcorn.player.defineProperty( media, "muted", {   
+        set: function( val ) {
+        if ( jwplayer( container.id ).getMute() !== val ) {
+          if ( val ) {
+            jwplayer( container.id ).setMute(true);
+          }
 
-    media.__defineGetter__( "currentTime", function() {
-      return jwplayer( container.id ).getPosition();
-    });
-
-    media.__defineSetter__( "muted", function( val ) {
-
-      if ( jwplayer( container.id ).getMute() !== val ) {
-        if ( val ) {
-          jwplayer( container.id ).setMute(true);
+          media.dispatchEvent( "volumechange" );
         }
-
-        media.dispatchEvent( "volumechange" );
-      }
-
-    return jwplayer( container.id ).getMute();
-    });
-
-    media.__defineGetter__( "muted", function() {
+        
         return jwplayer( container.id ).getMute();
+        },
+        get: function() {
+          return jwplayer( container.id ).getMute();
+        }
     });
-
-
-    media.__defineSetter__( "volume", function( val ) {
+  
+    Popcorn.player.defineProperty( media, "volume", {
+    
+      set: function( val ) {
 
         if ( jwplayer( container.id ).getVolume() !== val *100 ) {
         jwplayer( container.id ).setVolume( val * 100);
@@ -82,10 +84,11 @@ Popcorn.player( "jwplayer", {
         }
 
         return (jwplayer( container.id ).getVolume()) / 100;
-    });
-
-    media.__defineGetter__( "volume", function() {
-      return jwplayer( container.id ).percentage / 100;
+      },
+      
+      get: function() {
+        return jwplayer( container.id ).percentage / 100;
+      }
     });
 
     media.readyState = 4;
@@ -95,9 +98,7 @@ Popcorn.player( "jwplayer", {
     media.duration = options.duration;
     media.dispatchEvent( 'durationchange' );
 
-
     media.paused && media.dispatchEvent( 'loadeddata' );
-
 
     };
 
