@@ -59,15 +59,17 @@ Popcorn.player( "jwplayer", {
  
     Popcorn.player.defineProperty( media, "muted", {   
         set: function( val ) {
-        if ( jwplayer( container.id ).getMute() !== val ) {
-          if ( val ) {
-            jwplayer( container.id ).setMute(true);
-          }
+          if ( jwplayer( container.id ).getMute() !== val ) {
+            if ( val ) {
+              jwplayer( container.id ).setMute(true);
+            } else {
+              jwplayer( container.id ).setMute(false);
+            }
 
-          media.dispatchEvent( "volumechange" );
-        }
-        
-        return jwplayer( container.id ).getMute();
+            media.dispatchEvent( "volumechange" );
+          }
+          
+          return jwplayer( container.id ).getMute();
         },
         get: function() {
           return jwplayer( container.id ).getMute();
@@ -79,15 +81,15 @@ Popcorn.player( "jwplayer", {
       set: function( val ) {
 
         if ( jwplayer( container.id ).getVolume() !== val *100 ) {
-        jwplayer( container.id ).setVolume( val * 100);
-        media.dispatchEvent( "volumechange" );
+          jwplayer( container.id ).setVolume( val * 100);
+          media.dispatchEvent( "volumechange" );
         }
-
+        
         return (jwplayer( container.id ).getVolume()) / 100;
       },
       
       get: function() {
-        return jwplayer( container.id ).percentage / 100;
+        return jwplayer( container.id ).getVolume() / 100;
       }
     });
 
