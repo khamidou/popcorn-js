@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Popcorn footnote Plug-in Demo</title>
+
+  <script src="../../popcorn.js"></script>
+  <script src="popcorn.mediafragment.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var p = Popcorn( "#video" ).mediafragment({start: 0}).play()   
+
+	  document.getElementById("pauseButton").addEventListener( 'click', function() {
+		p.pause()
+		});
+		
+    }, false);
+
+  </script>
+</head>
+<body>
+  <h1 id="qunit-header">Popcorn Mediafragment Plug-in Demo</h1>
+  <p> Clicking the pause button should update the location hash.</p>
+  <p> Copypasting the changed url in a browser bar should take you to the exact instant in the video.</p>
+  <div>
+    <video id="video"
+      controls preload="none"
+      width="250px"
+      poster="../../test/poster.png">
+
+      <source id="mp4"
+        src="../../test/trailer.mp4"
+        type='video/mp4; codecs="avc1, mp4a"'>
+
+      <source id="ogv"
+        src="../../test/trailer.ogv"
+        type='video/ogg; codecs="theora, vorbis"'>
+
+      <p>Your user agent does not support the HTML5 Video element.</p>
+
+    </video>
+  </div>
+  <button id="pauseButton">Pause</button>
+</body>
+</html>
