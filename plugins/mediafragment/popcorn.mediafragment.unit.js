@@ -1,7 +1,7 @@
-test( "Popcorn Footnote Plugin", function() {
+test( "Popcorn Mediafragment Plugin", function() {
 
   var popped = Popcorn( "#video" ),
-      expects = 3,
+      expects = 4,
       count = 0;     
 
   expect( expects );
@@ -34,7 +34,6 @@ test( "Popcorn Footnote Plugin", function() {
 
   popped.exec( 3, function() {
     var currstate = window.location.href.split("#t=");
-    console.log(currstate);
     var time = + currstate[1];
     
     // popcorn's precision is limited to the second.
@@ -42,9 +41,21 @@ test( "Popcorn Footnote Plugin", function() {
     plus();
     popped.play();
   
+    popped.currentTime(5);
+  });
+
+  popped.exec( 6, function() {      
+    var currstate = window.location.href.split("#t=");
+    var time = + currstate[1];
+
+    console.log(time);
+    // popcorn's precision is limited to the second.
+    ok(time >= 5 && time <= 6, "correct time is set after seeking" );
+    plus();   
+  
   });
   
-  popped.exec( 4, function() {
+  popped.exec( 10, function() {
     // clear the address bar
     window.location.href = window.location.href.split("#t=")[0];
   });

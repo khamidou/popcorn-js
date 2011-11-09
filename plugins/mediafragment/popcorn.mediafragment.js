@@ -36,12 +36,14 @@
               }
         }
         
-        
-        this.listen( 'loadedmetadata', advanceTime );        
-        this.listen("pause", function(data) {            
+        var updateTime = function() {
             splitArr = window.location.href.split("#")			
             history.replaceState({}, "", splitArr[0] + "#t=" + this.currentTime().toFixed(2));
-        });
+        };
+        
+        this.listen( 'loadedmetadata', advanceTime );        
+        this.listen("pause", updateTime);
+        this.listen("seeked", updateTime);
         
     },
 
