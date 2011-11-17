@@ -37,6 +37,11 @@
         }
 
         var updateTime = function() {
+            var history = window.history;
+            if ( !history.pushState ) {
+              return false;
+            }
+
             splitArr = window.location.href.split( "#" )
             history.replaceState( {}, "", splitArr[0] + "#t=" + this.currentTime().toFixed( 2 ) );
         };
