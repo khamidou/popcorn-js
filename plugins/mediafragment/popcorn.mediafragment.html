@@ -6,12 +6,14 @@
   <script src="../../popcorn.js"></script>
   <script src="popcorn.mediafragment.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      var p = Popcorn( "#video" ).mediafragment({start: 0}).play()   
+    document.addEventListener( "DOMContentLoaded", function () {
+      var p = Popcorn( "#video" )
+              .mediafragment({start: 0})
+              .play();
 
-	  document.getElementById("pauseButton").addEventListener( 'click', function() {
-		p.pause()
-		});
+      document.getElementById("pauseButton").addEventListener( "click", function() {
+        p.pause()
+      });
 		
     }, false);
 
